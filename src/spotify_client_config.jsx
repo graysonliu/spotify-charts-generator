@@ -3,7 +3,8 @@ const spotify_client = {
     client_secret: '58e139c6808244518abbeb8bc1aed95e',
     redirect_uri: window.location.href.indexOf('localhost') !== -1 ?
         'http://localhost:3000/' :
-        'https://graysonliu.github.io/spotify-charts-generator/'
+        'https://graysonliu.github.io/spotify-charts-generator/',
+    scope: 'playlist-modify-public'
 }
 
 export default spotify_client

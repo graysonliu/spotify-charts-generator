@@ -1,19 +1,15 @@
 import React, {Component} from "react";
 import $ from "jquery"
 import processURL from "./process_url";
-import spotify_client from "./spotify_client_config";
 
-
-const scopes = 'playlist-modify-public';
-
-const client_id = spotify_client.client_id
-const client_secret = spotify_client.client_secret
-const redirect_uri = spotify_client.redirect_uri
-
-class App extends Component {
+class SpotifyApp extends Component {
     constructor(props) {
         super(props);
-        this.state = {access_token: null, refresh_token: null, redirect_uri: redirect_uri};
+        this.state = {
+            access_token: null,
+            refresh_token: null,
+            redirect_uri: this.props.redirect_uri
+        };
         this.popup = null;
         window.spotifyAuthCallback = this.spotifyAuthCallback.bind(this);
     }
@@ -28,9 +24,9 @@ class App extends Component {
             data: {
                 grant_type: 'authorization_code',
                 code: code,
-                redirect_uri: redirect_uri,
-                client_id: client_id,
-                client_secret: client_secret,
+                redirect_uri: this.props.redirect_uri,
+                client_id: this.props.client_id,
+                client_secret: this.props.client_secret,
             }
         }).done(data => {
             console.log(data)
@@ -49,9 +45,9 @@ class App extends Component {
             // this is the main window
             this.popup = window.open('https://accounts.spotify.com/authorize' +
                 '?response_type=code' +
-                '&client_id=' + client_id +
-                (scopes ? '&scope=' + encodeURIComponent(scopes) : '') +
-                '&redirect_uri=' + encodeURIComponent(redirect_uri) +
+                '&client_id=' + this.props.client_id +
+                (this.props.scopes ? '&scope=' + encodeURIComponent(this.props.scopes) : '') +
+                '&redirect_uri=' + encodeURIComponent(this.props.redirect_uri) +
                 '&show_dialog=' + true,
                 'Login with Spotify',
                 'width=800,height=600');
@@ -67,4 +63,4 @@ class App extends Component {
     }
 }
 
-export default App;
+export default SpotifyApp;

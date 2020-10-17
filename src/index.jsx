@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "./App";
+import SpotifyApp from "./App";
+import spotify_client from "./spotify_client_config";
 
 function createTitle(title) {
     const element = document.createElement('title');
@@ -17,4 +18,11 @@ function component() {
 document.head.appendChild(createTitle("Spotify Charts Generator"))
 document.body.appendChild(component());
 
-ReactDOM.render(<App/>, document.getElementById("root"));
+ReactDOM.render(
+    <SpotifyApp
+        client_id={spotify_client.client_id}
+        client_secret={spotify_client.client_secret}
+        redirect_uri={spotify_client.redirect_uri}
+        scope={spotify_client.scope}
+    />,
+    document.getElementById("root"));

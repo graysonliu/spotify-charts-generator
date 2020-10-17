@@ -2,7 +2,6 @@ import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
 
-
 function createTitle(title) {
     const element = document.createElement('title');
     element.innerText = title;
@@ -17,4 +16,5 @@ function component() {
 
 document.head.appendChild(createTitle("Spotify Charts Generator"))
 document.body.appendChild(component());
+
 ReactDOM.render(<App/>, document.getElementById("root"));

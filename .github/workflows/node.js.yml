@@ -23,8 +23,15 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
+
       - run: npm ci
-      - run: npm run build
+
+      - name: Build site
+        env:
+          CLIENT_ID: ${{ secrets.CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+          REDIRECT_URL: https://graysonliu.github.io/spotify-charts-generator/
+        run: npm run build
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3

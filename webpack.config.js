@@ -3,11 +3,15 @@ const webpack = require("webpack");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+const SitemapPlugin = require('sitemap-webpack-plugin').default;
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
+const paths = ['/'];
 
 module.exports = {
-    entry: "./src/index.js",
+    entry: {
+        index: "./src/index.jsx"
+    },
     mode: isDevelopment ? 'development' : 'production',
     module: {
         rules: [
@@ -46,8 +50,8 @@ module.exports = {
     },
     resolve: {extensions: ["*", ".js", ".jsx"]},
     output: {
-        path: path.resolve(__dirname, "dist/"),
-        filename: "bundle.js"
+        path: path.resolve(__dirname, 'dist'),
+        filename: '[name].bundle.js',
     },
     devServer: {
         contentBase: path.join(__dirname, ""),
@@ -57,11 +61,12 @@ module.exports = {
     plugins: [
         isDevelopment && new webpack.HotModuleReplacementPlugin(),
         isDevelopment && new ReactRefreshWebpackPlugin(),
-        // new CleanWebpackPlugin(),
+        new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
-            template: "./src/index.html",
-            // title: "Zijian Liu",
+            template: "./src/template.html",
             favicon: "./src/images/thinking.svg"
         }),
+        new SitemapPlugin('https://graysonliu.github.io', paths,
+            {skipgzip: true})
     ]
 };

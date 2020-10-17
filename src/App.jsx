@@ -1,12 +1,16 @@
 import React, {Component} from "react";
 import $ from "jquery"
 import processURL from "./process_url";
+import spotify_client from "./spotify_client_config";
 
 
 const scopes = 'playlist-modify-public';
-const client_id = process.env.CLIENT_ID;
-const client_secret = process.env.CLIENT_SECRET;
-const redirect_uri = process.env.REDIRECT_URL;
+
+const client_id = spotify_client.client_id
+const client_secret = spotify_client.client_secret
+const redirect_uri = spotify_client.redirect_uri
+
+console.log(client_id, client_secret)
 
 class App extends Component {
     constructor(props) {

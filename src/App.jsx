@@ -13,7 +13,7 @@ const redirect_uri = spotify_client.redirect_uri
 class App extends Component {
     constructor(props) {
         super(props);
-        this.state = {access_token: null, refresh_token: null};
+        this.state = {access_token: null, refresh_token: null, redirect_uri: redirect_uri};
         this.popup = null;
         window.spotifyAuthCallback = this.spotifyAuthCallback.bind(this);
     }

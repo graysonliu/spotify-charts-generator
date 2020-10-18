@@ -1,0 +1,42 @@
+html, body, #root, .app {
+  font-size: 6vmin;
+  height: 100%;
+  width: 100%;
+}
+
+button {
+  cursor: pointer;
+}
+
+.image-link {
+  a, a:link, a:visited {
+    text-decoration: none;
+    display: flex;
+  }
+}
+
+.my-logo {
+  display: flex;
+  justify-content: center;
+
+  img {
+    height: 1rem;
+  }
+
+  img:hover {
+    animation-play-state: paused;
+  }
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg)
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.rotating-img {
+  animation: rotation 3s linear infinite;
+}

@@ -1,7 +1,27 @@
+$width-high-bound: 1280px;
+$width-low-bound: 720px;
+
 html, body, #root, .app {
-  font-size: 6vmin;
   height: 100%;
   width: 100%;
+}
+
+@media screen and (max-width: $width-low-bound) {
+  html, body, #root, .app {
+    font-size: 0.05*$width-low-bound;
+  }
+}
+
+@media screen and (min-width: $width-high-bound) {
+  html, body, #root, .app {
+    font-size: 0.05*$width-high-bound;
+  }
+}
+
+@media screen and (max-width: $width-high-bound) and (min-width: $width-low-bound) {
+  html, body, #root, .app {
+    font-size: 5vw;
+  }
 }
 
 button {
@@ -9,22 +29,40 @@ button {
 }
 
 .image-link {
+  display: inline-flex;
+
   a, a:link, a:visited {
     text-decoration: none;
     display: flex;
   }
 }
 
-.my-logo {
-  display: flex;
+.my-logo-header {
   justify-content: center;
+  display: flex;
 
   img {
+    margin: 0.25rem 0;
     height: 1rem;
   }
 
   img:hover {
     animation-play-state: paused;
+  }
+}
+
+.login-button {
+  justify-content: center;
+  display: flex;
+  margin-top: 1rem;
+
+  button {
+    height: 1rem;
+    width: 3rem;
+    color: #2940a8;
+    background-color: #1ED760;
+    border-radius: 1rem;
+    font-size: 0.5rem;
   }
 }
 

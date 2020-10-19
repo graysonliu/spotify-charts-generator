@@ -3,11 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title><%= htmlWebpackPlugin.options.title %></title>
+    <% for (item of htmlWebpackPlugin.options.meta) { %>
+        <meta<% for (key in item) { %> <%= key %>= "<%= item[key] %>"<% } %>>
+    <% } %>
     <!-- inject environment variables into pages at build time -->
-    <script type="text/javascript"><%
-        for (key in htmlWebpackPlugin.options.window) { %>
-        window['<%= key %>'] = <%= JSON.stringify(htmlWebpackPlugin.options.window[key]) %>;<%
-        } %>
+    <script type="text/javascript">
+        <% for (key in htmlWebpackPlugin.options.window) { %>
+        window['<%= key %>'] = <%= JSON.stringify(htmlWebpackPlugin.options.window[key]) %>;
+        <% } %>
     </script>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <!--    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-180715652-2"></script>-->

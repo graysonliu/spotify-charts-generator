@@ -32,7 +32,7 @@ class MyLogo extends Component {
 
     render() {
         return (
-            <div className='my-logo'>
+            <div className='my-logo-header'>
                 <ImageLink
                     target='_self'
                     img={logo_thinking}
@@ -50,7 +50,7 @@ class LoginButton extends Component {
 
     render() {
         return (
-            <div>
+            <div className='login-button'>
                 <button onClick={this.props.onClick}>Login</button>
             </div>
         );

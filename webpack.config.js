@@ -64,8 +64,18 @@ module.exports = (env, argv) => {
             isDevelopment && new ReactRefreshWebpackPlugin(),
             !isDevelopment && new CleanWebpackPlugin(),
             new HtmlWebpackPlugin({
-                template: "./src/template.html",
-                favicon: "./src/images/thinking.svg"
+                template: "./src/template.ejs",
+                title: "Spotify Charts Generator",
+                favicon: "./src/images/thinking.svg",
+                // inject environment variables into pages at build time
+                window: {
+                    env: {
+                        client_id: process.env.CLIENT_ID,
+                        client_secret: process.env.CLIENT_SECRET,
+                        redirect_uri: process.env.REDIRECT_URL,
+                        scopes: process.env.SCOPES
+                    }
+                }
             }),
             new SitemapWebpackPlugin('https://graysonliu.github.io', paths,
                 {skipgzip: true})

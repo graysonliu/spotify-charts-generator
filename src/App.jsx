@@ -82,9 +82,9 @@ class SpotifyApp extends Component {
             data: {
                 grant_type: 'authorization_code',
                 code: code,
-                redirect_uri: window.redirect_uri,
-                client_id: window.client_id,
-                client_secret: window.client_secret,
+                redirect_uri: window.env.redirect_uri,
+                client_id: window.env.client_id,
+                client_secret: window.env.client_secret,
             }
         }).done(data => {
             this.setState({
@@ -97,9 +97,9 @@ class SpotifyApp extends Component {
     handleClickLoginButton(e) {
         this.popup = window.open('https://accounts.spotify.com/authorize' +
             '?response_type=code' +
-            '&client_id=' + window.client_id +
-            (window.scopes ? '&scope=' + encodeURIComponent(window.scopes) : '') +
-            '&redirect_uri=' + encodeURIComponent(window.redirect_uri) +
+            '&client_id=' + window.env.client_id +
+            (window.env.scopes ? '&scope=' + encodeURIComponent(window.env.scopes) : '') +
+            '&redirect_uri=' + encodeURIComponent(window.env.redirect_uri) +
             '&show_dialog=' + true,
             'Login with Spotify');
     }

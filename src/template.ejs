@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><%= htmlWebpackPlugin.options.title %></title>
+    <!-- inject environment variables into pages at build time -->
+    <script type="text/javascript"><%
+        for (key in htmlWebpackPlugin.options.window) { %>
+        window['<%= key %>'] = <%= JSON.stringify(htmlWebpackPlugin.options.window[key]) %>;<%
+        } %>
+    </script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <!--    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-180715652-2"></script>-->
+    <!--    <script>-->
+    <!--        window.dataLayer = window.dataLayer || [];-->
+
+    <!--        function gtag() {-->
+    <!--            dataLayer.push(arguments);-->
+    <!--        }-->
+
+    <!--        gtag('js', new Date());-->
+
+    <!--        gtag('config', 'UA-180715652-2');-->
+    <!--    </script>-->
+</head>
+<body>
+</body>
+</html>

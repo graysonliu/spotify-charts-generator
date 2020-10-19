@@ -3,7 +3,7 @@ const webpack = require("webpack");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
-const SitemapPlugin = require('sitemap-webpack-plugin').default;
+const SitemapWebpackPlugin = require('sitemap-webpack-plugin').default;
 const dotenv = require('dotenv')
 
 const paths = ['/'];
@@ -67,7 +67,7 @@ module.exports = (env, argv) => {
                 template: "./src/template.html",
                 favicon: "./src/images/thinking.svg"
             }),
-            new SitemapPlugin('https://graysonliu.github.io', paths,
+            new SitemapWebpackPlugin('https://graysonliu.github.io', paths,
                 {skipgzip: true})
         ].filter(Boolean)
     };

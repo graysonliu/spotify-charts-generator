@@ -4,6 +4,7 @@ import processURL from "./process_url";
 import logo_thinking from "./images/thinking.svg"
 import "./styles.scss"
 
+
 class ImageLink extends Component {
     constructor(props) {
         super(props);
@@ -12,7 +13,7 @@ class ImageLink extends Component {
     render() {
         return (
             <div className='image-link'>
-                <a href={this.props.href || '/'}
+                <a href={this.props.href || '#'}
                    target={this.props.target || '_blank'}>
                     <img src={this.props.img}
                          alt={this.props.alt || ''}
@@ -81,9 +82,9 @@ class SpotifyApp extends Component {
             data: {
                 grant_type: 'authorization_code',
                 code: code,
-                redirect_uri: this.props.redirect_uri,
-                client_id: this.props.client_id,
-                client_secret: this.props.client_secret,
+                redirect_uri: window.redirect_uri,
+                client_id: window.client_id,
+                client_secret: window.client_secret,
             }
         }).done(data => {
             this.setState({
@@ -96,9 +97,9 @@ class SpotifyApp extends Component {
     handleClickLoginButton(e) {
         this.popup = window.open('https://accounts.spotify.com/authorize' +
             '?response_type=code' +
-            '&client_id=' + this.props.client_id +
-            (this.props.scopes ? '&scope=' + encodeURIComponent(this.props.scopes) : '') +
-            '&redirect_uri=' + encodeURIComponent(this.props.redirect_uri) +
+            '&client_id=' + window.client_id +
+            (window.scopes ? '&scope=' + encodeURIComponent(window.scopes) : '') +
+            '&redirect_uri=' + encodeURIComponent(window.redirect_uri) +
             '&show_dialog=' + true,
             'Login with Spotify');
     }

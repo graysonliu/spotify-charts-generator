@@ -1,69 +1,32 @@
-$width-high-bound: 1280px;
-$width-low-bound: 720px;
+$width-high-bound: 640px;
+$width-low-bound: 320px;
+
+@mixin horizontal_centering_fixed_position($top) {
+  position: fixed;
+  top: $top;
+  left: 50%;
+  transform: translateX(-50%);
+}
 
 html, body, #root, .app {
-  height: 100%;
-  width: 100%;
-}
-
-@media screen and (max-width: $width-low-bound) {
-  html, body, #root, .app {
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  @media screen and (max-width: $width-low-bound) {
     font-size: 0.05*$width-low-bound;
   }
-}
-
-@media screen and (min-width: $width-high-bound) {
-  html, body, #root, .app {
+  @media screen and (min-width: $width-high-bound) {
     font-size: 0.05*$width-high-bound;
   }
-}
-
-@media screen and (max-width: $width-high-bound) and (min-width: $width-low-bound) {
-  html, body, #root, .app {
+  @media screen and (max-width: $width-high-bound) and (min-width: $width-low-bound) {
     font-size: 5vw;
   }
+  overflow-x: scroll;
 }
 
 button {
   cursor: pointer;
-}
-
-.image-link {
-  display: inline-flex;
-
-  a, a:link, a:visited {
-    text-decoration: none;
-    display: flex;
-  }
-}
-
-.my-logo-header {
-  justify-content: center;
-  display: flex;
-
-  img {
-    margin: 0.25rem 0;
-    height: 1rem;
-  }
-
-  img:hover {
-    animation-play-state: paused;
-  }
-}
-
-.login-button {
-  justify-content: center;
-  display: flex;
-  margin-top: 1rem;
-
-  button {
-    height: 1rem;
-    width: 3rem;
-    color: #2940a8;
-    background-color: #1ED760;
-    border-radius: 1rem;
-    font-size: 0.5rem;
-  }
+  border-width: 0;
 }
 
 @keyframes rotation {
@@ -75,6 +38,62 @@ button {
   }
 }
 
-.rotating-img {
+@mixin rotating-img {
   animation: rotation 3s linear infinite;
+}
+
+.image-link {
+  display: inline-flex;
+
+  img {
+    transition: 0.25s;
+  }
+
+  a, a:link, a:visited {
+    text-decoration: none;
+    display: flex;
+  }
+}
+
+.my-logo {
+  display: inline-flex;
+
+  .image-link {
+    img {
+      height: 0.5rem;
+    }
+  }
+}
+
+.my-logo-header {
+  @include horizontal_centering_fixed_position(2%);
+
+  .image-link {
+    img {
+      height: 2rem;
+      @include rotating-img
+    }
+
+    @media (any-hover: hover) {
+      img:hover {
+        animation-play-state: paused;
+      }
+    }
+  }
+}
+
+.login-button {
+  @include horizontal_centering_fixed_position(30%);
+  display: flex;
+
+  button {
+    height: 2rem;
+    width: 6rem;
+    color: white;
+    font-weight: bold;
+    letter-spacing: 0.04rem;
+    background-color: #1ED760;
+    border-radius: 1.5rem;
+    font-size: 0.75rem;
+  }
 }

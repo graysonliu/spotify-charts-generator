@@ -6,14 +6,15 @@ const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin'
 const SitemapWebpackPlugin = require('sitemap-webpack-plugin').default;
 const dotenv = require('dotenv')
 
-const paths = ['/'];
-
-module.exports = (env, argv) => {
+module.exports = async (env, argv) => {
+    const pre_build = require('./pre_build');
+    const country_list = await pre_build.fetch_chart();
+    const paths = ['/'];
     const isDevelopment = argv.mode === 'development';
 
     const config = {
         entry: {
-            index: "./src/index.jsx"
+            index: "./src/index.jsx",
         },
         mode: isDevelopment ? 'development' : 'production',
         module: {
@@ -79,7 +80,8 @@ module.exports = (env, argv) => {
                         client_id: process.env.CLIENT_ID,
                         client_secret: process.env.CLIENT_SECRET,
                         redirect_uri: process.env.REDIRECT_URL,
-                        scopes: process.env.SCOPES
+                        scopes: process.env.SCOPES,
+                        country_list: country_list
                     }
                 }
             }),
@@ -91,7 +93,7 @@ module.exports = (env, argv) => {
     if (isDevelopment) {
         config.devServer = {
             contentBase: path.join(__dirname, ""),
-            port: 3000,
+            port: 3001,
             hotOnly: true
         }
     }

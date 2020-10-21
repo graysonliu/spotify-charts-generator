@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+<!--    <% for (item of htmlWebpackPlugin.options.meta) { %>-->
+<!--        <meta<% for (key in item) { %> <%= key %>= "<%= item[key] %>"<% } %>>-->
+<!--    <% } %>-->
     <title><%= htmlWebpackPlugin.options.title %></title>
-    <% for (item of htmlWebpackPlugin.options.meta) { %>
-        <meta<% for (key in item) { %> <%= key %>= "<%= item[key] %>"<% } %>>
-    <% } %>
     <!-- inject environment variables into pages at build time -->
     <script type="text/javascript">
         <% for (key in htmlWebpackPlugin.options.window) { %>

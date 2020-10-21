@@ -4,7 +4,6 @@ import processURL from "./process_url";
 import logo_thinking from "./images/thinking.svg"
 import "./styles.scss"
 
-
 class ImageLink extends Component {
     constructor(props) {
         super(props);
@@ -14,12 +13,11 @@ class ImageLink extends Component {
         return (
             <div className='image-link'>
                 <a href={this.props.href || '#'}
-                   target={this.props.target || '_blank'}>
+                   target={this.props.target || '_blank'}
+                >
                     <img src={this.props.img}
                          alt={this.props.alt || ''}
-                         className={this.props.rotating && 'rotating-img'}
-                         onMouseOver={this.props.onMouseOverImage}
-                         onMouseLeave={this.props.onMouseLeaveImage}/>
+                    />
                 </a>
             </div>);
     }
@@ -32,15 +30,16 @@ class MyLogo extends Component {
 
     render() {
         return (
-            <div className='my-logo-header'>
+            <div className={this.props.style ?
+                `my-logo ${this.props.style}` :
+                'my-logo'}>
                 <ImageLink
                     target='_self'
                     img={logo_thinking}
-                    rotating={true}
                 />
-            </div>);
+            </div>
+        );
     }
-
 }
 
 class LoginButton extends Component {
@@ -75,23 +74,32 @@ class SpotifyApp extends Component {
         // close the popup window
         this.popup.close();
 
-        // use code to request token
-        $.ajax({
-            method: "POST",
-            url: "https://accounts.spotify.com/api/token",
-            data: {
-                grant_type: 'authorization_code',
-                code: code,
-                redirect_uri: window.env.redirect_uri,
-                client_id: window.env.client_id,
-                client_secret: window.env.client_secret,
-            }
-        }).done(data => {
-            this.setState({
+        // use 'code' to request token
+        fetch(
+            'https://accounts.spotify.com/api/token',
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: new URLSearchParams({
+                    grant_type: "authorization_code",
+                    code: code,
+                    redirect_uri: window.env.redirect_uri,
+                    client_id: window.env.client_id,
+                    client_secret: window.env.client_secret,
+                })
+            })
+            .then(response => response.json())
+            .then(data => this.setState({
                 access_token: data['access_token'],
                 refresh_token: data['refresh_token'],
-            });
-        });
+            }));
+    }
+
+    spotifyAuthCanceledCallback() {
+        // close the popup window
+        this.popup.close();
     }
 
     handleClickLoginButton(e) {
@@ -99,14 +107,8 @@ class SpotifyApp extends Component {
             '?response_type=code' +
             '&client_id=' + window.env.client_id +
             (window.env.scopes ? '&scope=' + encodeURIComponent(window.env.scopes) : '') +
-            '&redirect_uri=' + encodeURIComponent(window.env.redirect_uri) +
-            '&show_dialog=' + true,
+            '&redirect_uri=' + encodeURIComponent(window.env.redirect_uri),
             'Login with Spotify');
-    }
-
-    spotifyAuthCanceledCallback() {
-        // close the popup window
-        this.popup.close();
     }
 
     render() {
@@ -118,7 +120,7 @@ class SpotifyApp extends Component {
                 // this is the main window
                 return (
                     <div className='app'>
-                        <MyLogo/>
+                        <MyLogo style='my-logo-header'/>
                         <LoginButton onClick={this.handleClickLoginButton}/>
                     </div>);
             }
@@ -137,7 +139,7 @@ class SpotifyApp extends Component {
         } else {
             return (
                 <div className='app'>
-                    <MyLogo/>
+                    <MyLogo style='my-logo-header'/>
                 </div>
             );
         }

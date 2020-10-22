@@ -134,9 +134,8 @@ class SpotifyApp extends Component {
             refresh_token: null,
             selected_list: this.initialize_selected()
         };
-        window.spotifyAuthSuccessCallback = this.spotifyAuthSuccessCallback.bind(this);
-        window.spotifyAuthCanceledCallback = this.spotifyAuthCanceledCallback.bind(this);
-        this.handleClickLoginButton = this.handleClickLoginButton.bind(this);
+        window.spotifyAuthSuccessCallback = this.spotifyAuthSuccessCallback;
+        window.spotifyAuthCanceledCallback = this.spotifyAuthCanceledCallback;
     }
 
     initialize_selected = () => {
@@ -147,7 +146,7 @@ class SpotifyApp extends Component {
         return selected_list;
     }
 
-    spotifyAuthSuccessCallback(code) {
+    spotifyAuthSuccessCallback = code => {
         // close the popup window
         this.popup.close();
 
@@ -174,12 +173,12 @@ class SpotifyApp extends Component {
             }));
     }
 
-    spotifyAuthCanceledCallback() {
+    spotifyAuthCanceledCallback = () => {
         // close the popup window
         this.popup.close();
     }
 
-    handleClickLoginButton(e) {
+    handleClickLoginButton = () => {
         this.popup = window.open('https://accounts.spotify.com/authorize' +
             '?response_type=code' +
             '&client_id=' + window.env.client_id +

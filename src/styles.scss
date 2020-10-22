@@ -20,13 +20,13 @@ html, body, #root, .app {
   @media screen and (max-width: $width-high-bound) and (min-width: $width-low-bound) {
     font-size: 5vw;
   }
-  overflow-x: scroll;
 }
 
 button {
   cursor: pointer;
   border-width: 0;
   padding: 0;
+  outline: none;
 }
 
 @keyframes rotation {
@@ -88,24 +88,52 @@ button {
   }
 }
 
-.main-button {
+@mixin set_main_button_properties_given_height($height) {
+  height: $height;
+  border-radius: $height/2;
+  font-size: $height/2;
+}
+
+%main-button {
+  button {
+    color: white;
+    font-weight: bold;
+    letter-spacing: 0.02rem;
+    background-color: #1DB954;
+  }
+
+  button:hover {
+    background-color: #1ED760;
+  }
+
+  button:active {
+    background-color: #1aa34a;
+  }
+}
+
+.login-button {
+  @extend %main-button;
   @include flex_justify_content;
   margin-top: 1rem;
 
   button {
-    $height: 1.5rem;
-    height: $height;
+    @include set_main_button_properties_given_height(1.5rem);
     width: 6rem;
-    color: white;
-    font-weight: bold;
-    letter-spacing: 0.02rem;
-    background-color: #1ED760;
-    border-radius: $height/2;
-    font-size: $height/2;
   }
 }
 
-.country-item {
+.create-playlists-button {
+  @extend %main-button;
+  @include flex_justify_content;
+  margin-top: 1rem;
+
+  button {
+    @include set_main_button_properties_given_height(1.5rem);
+    width: 8rem;
+  }
+}
+
+%checkbox-item {
   @include flex_justify_content;
   white-space: pre;
   $font-size: 0.8rem;
@@ -116,6 +144,16 @@ button {
     height: $font-size;
     width: $font-size;
   }
+}
+
+.country-item {
+  @extend %checkbox-item;
+}
+
+.select-all-item {
+  @extend %checkbox-item;
+  margin-top: 0.75rem;
+  margin-bottom: -0.75rem;
 }
 
 .country-list {

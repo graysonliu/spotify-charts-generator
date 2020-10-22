@@ -40,15 +40,18 @@ class MyLogo extends Component {
     }
 }
 
-class LoginButton extends Component {
+class MainButton extends Component {
     constructor(props) {
         super(props);
     }
 
     render() {
         return (
-            <div className='main-button'>
-                <button onClick={this.props.onClick}>Login</button>
+            <div className={this.props.style}>
+                <button
+                    onClick={this.props.onClick}>
+                    {this.props.text}
+                </button>
             </div>
         );
     }
@@ -60,10 +63,18 @@ class CountryItem extends Component {
         super(props);
     }
 
+    onChange = (e) => {
+        this.props.handleClickCountryItem(this.props.country_code, e.target.checked);
+    }
+
     render() {
         return (
             <div className='country-item'>
-                <input type="checkbox"/>
+                <input
+                    type="checkbox"
+                    checked={this.props.checked}
+                    onChange={this.onChange}
+                />
                 <span>{` ${this.props.country_name} `}</span>
                 <span className={`flag-icon flag-icon-${this.props.country_code}`}/>
             </div>);
@@ -83,6 +94,8 @@ class CountryList extends Component {
                     key={chart[0]}
                     country_code={chart[0]}
                     country_name={chart[1]}
+                    checked={this.props.selected_list[chart[0]]}
+                    handleClickCountryItem={this.props.handleClickCountryItem}
                 />
             );
         });
@@ -94,17 +107,44 @@ class CountryList extends Component {
     }
 }
 
+class SelectAllCheckBox extends Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        return (
+            <div className='select-all-item'>
+                <input type='checkbox'
+                       checked={this.props.all_selected}
+                       onChange={e => this.props.handleClickSelectAll(e.target.checked)}
+                />
+                <span> Select All</span>
+            </div>
+        );
+    }
+
+}
+
 class SpotifyApp extends Component {
     constructor(props) {
         super(props);
         this.state = {
             access_token: null,
-            refresh_token: null
+            refresh_token: null,
+            selected_list: this.initialize_selected()
         };
-        this.popup = null;
         window.spotifyAuthSuccessCallback = this.spotifyAuthSuccessCallback.bind(this);
         window.spotifyAuthCanceledCallback = this.spotifyAuthCanceledCallback.bind(this);
         this.handleClickLoginButton = this.handleClickLoginButton.bind(this);
+    }
+
+    initialize_selected = () => {
+        const selected_list = {};
+        window.env.charts.forEach(chart => {
+            selected_list[chart[0]] = false;
+        });
+        return selected_list;
     }
 
     spotifyAuthSuccessCallback(code) {
@@ -148,6 +188,28 @@ class SpotifyApp extends Component {
             'Login with Spotify');
     }
 
+    handleClickCountryItem = (country_code, checked) => {
+        this.setState(preState => {
+            const selected_list = {...preState.selected_list};
+            selected_list[country_code] = checked;
+            return {selected_list};
+        });
+    }
+
+    checkIfAllSelected = () => {
+        return Object.values(this.state.selected_list).reduce((a, b) => a && b, true);
+    }
+
+    handleClickSelectAll = (checked) => {
+        this.setState(preState => {
+            const selected_list = {...preState.selected_list};
+            for (const country_code in selected_list) {
+                selected_list[country_code] = checked;
+            }
+            return {selected_list};
+        });
+    }
+
     render() {
         const queries = processURL(window.location.href)
         // spotify authentication
@@ -168,13 +230,26 @@ class SpotifyApp extends Component {
                 <MyLogo style='my-logo-header'/>
                 {
                     this.state.access_token ?
-                        null :
-                        <LoginButton onClick={this.handleClickLoginButton}/>
+                        <MainButton
+                            style='create-playlists-button'
+                            text='Create Playlists'
+                        /> :
+                        <MainButton
+                            style='login-button'
+                            onClick={this.handleClickLoginButton}
+                            text='Login'
+                        />
                 }
-                <CountryList/>
+                <SelectAllCheckBox
+                    all_selected={this.checkIfAllSelected()}
+                    handleClickSelectAll={this.handleClickSelectAll}
+                />
+                <CountryList
+                    selected_list={this.state.selected_list}
+                    handleClickCountryItem={this.handleClickCountryItem}
+                />
             </div>
         );
-
     }
 }
 

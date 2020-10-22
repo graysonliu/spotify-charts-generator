@@ -8,7 +8,7 @@ const dotenv = require('dotenv')
 
 module.exports = async (env, argv) => {
     const pre_build = require('./pre_build');
-    const country_list = await pre_build.fetch_chart();
+    const charts = await pre_build.fetch_charts();
     const paths = ['/'];
     const isDevelopment = argv.mode === 'development';
 
@@ -81,7 +81,7 @@ module.exports = async (env, argv) => {
                         client_secret: process.env.CLIENT_SECRET,
                         redirect_uri: process.env.REDIRECT_URL,
                         scopes: process.env.SCOPES,
-                        country_list: country_list
+                        charts: charts
                     }
                 }
             }),

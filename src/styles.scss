@@ -1,17 +1,16 @@
 $width-high-bound: 640px;
 $width-low-bound: 320px;
 
-@mixin horizontal_centering_fixed_position($top) {
-  position: fixed;
-  top: $top;
-  left: 50%;
-  transform: translateX(-50%);
+@mixin flex_justify_content {
+  display: flex;
+  justify-content: center;
 }
 
 html, body, #root, .app {
   width: 100vw;
   height: 100vh;
   margin: 0;
+  background-color: floralwhite;
   @media screen and (max-width: $width-low-bound) {
     font-size: 0.05*$width-low-bound;
   }
@@ -27,6 +26,7 @@ html, body, #root, .app {
 button {
   cursor: pointer;
   border-width: 0;
+  padding: 0;
 }
 
 @keyframes rotation {
@@ -55,7 +55,7 @@ button {
   }
 }
 
-.my-logo {
+%my-logo-shared {
   display: inline-flex;
 
   .image-link {
@@ -65,8 +65,14 @@ button {
   }
 }
 
+.my-logo-small {
+  @extend %my-logo-shared;
+}
+
 .my-logo-header {
-  @include horizontal_centering_fixed_position(2%);
+  @extend %my-logo-shared;
+  @include flex_justify_content;
+  margin-top: 0.5rem;
 
   .image-link {
     img {
@@ -82,18 +88,38 @@ button {
   }
 }
 
-.login-button {
-  @include horizontal_centering_fixed_position(30%);
-  display: flex;
+.main-button {
+  @include flex_justify_content;
+  margin-top: 1rem;
 
   button {
-    height: 2rem;
+    $height: 1.5rem;
+    height: $height;
     width: 6rem;
     color: white;
     font-weight: bold;
-    letter-spacing: 0.04rem;
+    letter-spacing: 0.02rem;
     background-color: #1ED760;
-    border-radius: 1.5rem;
-    font-size: 0.75rem;
+    border-radius: $height/2;
+    font-size: $height/2;
   }
+}
+
+.country-item {
+  @include flex_justify_content;
+  white-space: pre;
+  $font-size: 0.8rem;
+  font-size: $font-size;
+  padding: $font-size/1.5;
+
+  input[type=checkbox] {
+    height: $font-size;
+    width: $font-size;
+  }
+}
+
+.country-list {
+  @include flex_justify_content;
+  flex-wrap: wrap;
+  margin: 1rem 1rem;
 }

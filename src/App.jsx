@@ -1,8 +1,8 @@
 import React, {Component} from "react";
-import $ from "jquery"
 import processURL from "./process_url";
 import logo_thinking from "./images/thinking.svg"
 import "./styles.scss"
+import "flag-icon-css/css/flag-icon.css"
 
 class ImageLink extends Component {
     constructor(props) {
@@ -30,9 +30,7 @@ class MyLogo extends Component {
 
     render() {
         return (
-            <div className={this.props.style ?
-                `my-logo ${this.props.style}` :
-                'my-logo'}>
+            <div className={this.props.style || ''}>
                 <ImageLink
                     target='_self'
                     img={logo_thinking}
@@ -49,12 +47,51 @@ class LoginButton extends Component {
 
     render() {
         return (
-            <div className='login-button'>
+            <div className='main-button'>
                 <button onClick={this.props.onClick}>Login</button>
             </div>
         );
     }
 
+}
+
+class CountryItem extends Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        return (
+            <div className='country-item'>
+                <input type="checkbox"/>
+                <span>{` ${this.props.country_name} `}</span>
+                <span className={`flag-icon flag-icon-${this.props.country_code}`}/>
+            </div>);
+    }
+}
+
+class CountryList extends Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        const country_list = [];
+        window.env.charts.forEach(chart => {
+            country_list.push(
+                <CountryItem
+                    key={chart[0]}
+                    country_code={chart[0]}
+                    country_name={chart[1]}
+                />
+            );
+        });
+        return (
+            <div className='country-list'>
+                {country_list}
+            </div>
+        );
+    }
 }
 
 class SpotifyApp extends Component {
@@ -114,35 +151,30 @@ class SpotifyApp extends Component {
     render() {
         const queries = processURL(window.location.href)
         // spotify authentication
-        if (!this.state.access_token) {
-            if (!('code' in queries) && !('error' in queries)) {
-                // not authenticated yet
-                // this is the main window
-                return (
-                    <div className='app'>
-                        <MyLogo style='my-logo-header'/>
-                        <LoginButton onClick={this.handleClickLoginButton}/>
-                    </div>);
-            }
-            if ('code' in queries) {
-                // authenticated and this is a popup window
-                // window.opener is the main window
-                window.opener && window.opener.spotifyAuthSuccessCallback(queries['code']);
-                return (<div className='app'/>);
-            }
-            if ('error' in queries) {
-                // authentication canceled and this is a popup window
-                // window.opener is the main window
-                window.opener && window.opener.spotifyAuthCanceledCallback();
-                return (<div className='app'/>);
-            }
-        } else {
-            return (
-                <div className='app'>
-                    <MyLogo style='my-logo-header'/>
-                </div>
-            );
+        if (!this.state.access_token && 'code' in queries) {
+            // authenticated and this is a popup window
+            // window.opener is the main window
+            window.opener && window.opener.spotifyAuthSuccessCallback(queries['code']);
+            return (<div className='app'/>);
         }
+        if (!this.state.access_token && 'error' in queries) {
+            // authentication canceled and this is a popup window
+            // window.opener is the main window
+            window.opener && window.opener.spotifyAuthCanceledCallback();
+            return (<div className='app'/>);
+        }
+        return (
+            <div className='app'>
+                <MyLogo style='my-logo-header'/>
+                {
+                    this.state.access_token ?
+                        null :
+                        <LoginButton onClick={this.handleClickLoginButton}/>
+                }
+                <CountryList/>
+            </div>
+        );
+
     }
 }
 

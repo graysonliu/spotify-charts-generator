@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import SpotifyApp from "./App";
+import SpotifyApp from "./components/SpotifyApp";
 
 
 function component() {

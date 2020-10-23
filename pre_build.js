@@ -15,21 +15,21 @@ const fetch_charts = async () => {
         const country_code = li.data('value');
         const country_name = li.text();
         const tracks = []
-        // const chart_url = `https://spotifycharts.com/regional/${country_code}/daily/latest`
-        // const chart_res = await fetch(chart_url);
-        // if (!chart_res.ok) {
-        //     console.log(`Cannot get chart for ${country_name}`);
-        //     continue
-        // }
-        // const chart_page = await chart_res.text();
-        // const chart_page_query = cheerio.load(chart_page);
-        // const track_list = chart_page_query('.chart-table-image a');
-        // track_list.each(function (i, element) {
-        //     // do not use arrow function here
-        //     // pay attention to 'this' when using arrow function
-        //     tracks.push(chart_page_query(this).attr('href').split('/').pop());
-        // })
-        // console.log(`${country_name} Done`);
+        const chart_url = `https://spotifycharts.com/regional/${country_code}/daily/latest`
+        const chart_res = await fetch(chart_url);
+        if (!chart_res.ok) {
+            console.log(`Cannot get chart for ${country_name}`);
+            continue
+        }
+        const chart_page = await chart_res.text();
+        const chart_page_query = cheerio.load(chart_page);
+        const track_list = chart_page_query('.chart-table-image a');
+        track_list.each(function (i, element) {
+            // do not use arrow function here
+            // pay attention to 'this' when using arrow function
+            tracks.push(chart_page_query(this).attr('href').split('/').pop());
+        })
+        console.log(`${country_name} Done`);
         charts.push([country_code, country_name, tracks]);
     }
     return charts;

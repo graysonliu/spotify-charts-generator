@@ -107,8 +107,10 @@ button {
     background-color: #1DB954;
   }
 
-  button:hover {
-    background-color: #1ED760;
+  @media (any-hover: hover) {
+    button:hover {
+      background-color: #1ED760;
+    }
   }
 
   button:active {
@@ -148,10 +150,10 @@ button {
 .console-output {
   display: flex;
   margin: 0.5rem 5rem 0;
-  white-space: pre;
   background-color: white;
 
   span {
+    white-space: pre-wrap;
     font-size: 0.5rem;
   }
 }

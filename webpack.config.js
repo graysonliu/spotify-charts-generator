@@ -17,6 +17,7 @@ module.exports = async (env, argv) => {
             index: "./src/index.jsx",
         },
         mode: isDevelopment ? 'development' : 'production',
+        devtool: isDevelopment ? 'inline-source-map' : 'source-map',
         module: {
             rules: [
                 {

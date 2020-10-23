@@ -67,9 +67,9 @@ class SpotifyApp extends Component {
         data = await this.spotify_api_fetch('/me')
         this.setState(() => ({
             user_name: data['display_name'],
-            user_id: data['id'],
-            console_text: `- Logged in as "${data['display_name']}"`
+            user_id: data['id']
         }));
+        this.clearOutput();
     }
 
     spotifyAuthCanceledCallback = () => {
@@ -141,6 +141,8 @@ class SpotifyApp extends Component {
             if (this.state.selected_list[country_code]) {
                 const country_name = window.env.charts[this.country_index[country_code]][1];
                 const tracks = window.env.charts[this.country_index[country_code]][2];
+
+                // create playlist
                 let data = await this.spotify_api_fetch(
                     `/users/${this.state.user_id}/playlists`,
                     'POST',
@@ -151,6 +153,7 @@ class SpotifyApp extends Component {
                 );
                 const playlist_id = data['id'];
                 const playlist_name = data['name'];
+
                 // we can only add 100 tracks at maximum per request
                 if (tracks.length > 0) {
                     await this.spotify_api_fetch(
@@ -175,6 +178,7 @@ class SpotifyApp extends Component {
                 this.appendConsoleText(`Playlist "${playlist_name}" Created`);
             }
         }
+
         // clear all selected items after clicking create-playlists button
         this.handleClickSelectAll(false);
     }

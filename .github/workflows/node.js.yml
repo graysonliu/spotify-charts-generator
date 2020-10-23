@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - master
+  schedule:
+    - cron: '0 0,6,12,18 * * *'
 
 jobs:
   deploy:
@@ -30,7 +32,7 @@ jobs:
         env:
           CLIENT_ID: ${{ secrets.CLIENT_ID }}
           CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
-          REDIRECT_URL: 'https://graysonliu.github.io/spotify-charts-generator/'
+          REDIRECT_URL: 'https://graysonliu.github.io/spotify-charts-generator-static/'
           SCOPES: 'playlist-modify-public'
         run: npm run build
 

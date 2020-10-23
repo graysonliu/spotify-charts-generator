@@ -1,5 +1,5 @@
-![](https://github.com/graysonliu/spotify-charts-generator/workflows/build/badge.svg)
+![](https://github.com/graysonliu/spotify-charts-generator-static/workflows/build/badge.svg)
 
-https://graysonliu.github.io/spotify-charts-generator/
+https://graysonliu.github.io/spotify-charts-generator-static/
 
-# spotify-charts-generator
+# spotify-charts-generator-static

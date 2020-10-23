@@ -68,7 +68,7 @@ class SpotifyApp extends Component {
         this.setState(() => ({
             user_name: data['display_name'],
             user_id: data['id'],
-            console_text: `- Logged in as "${data['display_name']}".`
+            console_text: `- Logged in as "${data['display_name']}"`
         }));
     }
 
@@ -146,7 +146,7 @@ class SpotifyApp extends Component {
                     'POST',
                     {
                         name: `${country_name} Top 200 Daily`,
-                        description: `Created with ${window.env.redirect_uri}.`
+                        description: `Created with ${window.env.redirect_uri}`
                     }
                 );
                 const playlist_id = data['id'];
@@ -188,7 +188,7 @@ class SpotifyApp extends Component {
 
     clearOutput = () => {
         this.setState(() =>
-            ({console_text: `- Logged in as "${this.state.user_name}".`})
+            ({console_text: `- Logged in as "${this.state.user_name}"`})
         );
     }
 

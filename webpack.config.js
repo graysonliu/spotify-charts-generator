@@ -9,7 +9,7 @@ const dotenv = require('dotenv')
 module.exports = async (env, argv) => {
     const pre_build = require('./pre_build');
     const charts = await pre_build.fetch_charts();
-    const paths = ['/spotify-charts-generator-static/'];
+    const paths = ['/spotify-charts-generator-static'];
     const isDevelopment = argv.mode === 'development';
 
     const config = {

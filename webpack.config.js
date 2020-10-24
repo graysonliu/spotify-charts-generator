@@ -69,12 +69,6 @@ module.exports = async (env, argv) => {
                 template: "./src/template.ejs",
                 title: "Spotify Charts Generator",
                 favicon: "./src/images/thinking.svg",
-                meta: [
-                    {
-                        name: 'viewport',
-                        content: 'width=device-width, initial-scale=1'
-                    }
-                ],
                 // inject environment variables into pages at build time
                 window: {
                     env: {
@@ -84,7 +78,11 @@ module.exports = async (env, argv) => {
                         scopes: process.env.SCOPES,
                         charts: charts
                     }
-                }
+                },
+                // for Google Analytics
+                googleAnalytics: {
+                    measurement_id: 'G-753HJBQ90Q'
+                },
             }),
             new SitemapWebpackPlugin('https://graysonliu.github.io', paths,
                 {skipgzip: true})

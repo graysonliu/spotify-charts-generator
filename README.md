@@ -29,7 +29,7 @@ plugins: [
     ...
 ]
 ```
-Also, because of denied access in CORS policy of [Spotify Charts](https://spotifycharts.com), we cannot get charts data at runtime, meaning that charts data should also be injected into the page at build time. To make sure that we have the latest chart data, this web page will be rebuilt every 6 hours with Github Actions. Overall, we provide four environment variables at build time that will be injected into the web page, as well as the charts data that is fetched by [pre_build.js](https://github.com/graysonliu/spotify-charts-generator-static/blob/master/pre_build.js).
+Also, because of denied access in CORS policy of [Spotify Charts](https://spotifycharts.com), we cannot get charts data at runtime, meaning that charts data should also be injected into the page at build time. To make sure that we have the latest charts data, this app will be rebuilt every 6 hours as scheduled in Github Actions. Overall, we provide four environment variables at build time that will be injected into the web page, as well as the charts data that is fetched by [pre_build.js](https://github.com/graysonliu/spotify-charts-generator-static/blob/master/pre_build.js).
 
 The injection is achieved by following snippet in [template.ejs](https://github.com/graysonliu/spotify-charts-generator-static/blob/master/src/template.ejs):
 

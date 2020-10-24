@@ -69,6 +69,7 @@ module.exports = async (env, argv) => {
                 template: "./src/template.ejs",
                 title: "Spotify Charts Generator",
                 favicon: "./src/images/thinking.svg",
+                meta: [],
                 // inject environment variables into pages at build time
                 window: {
                     env: {

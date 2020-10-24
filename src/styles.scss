@@ -20,6 +20,7 @@ html, body, #root, .app {
   @media screen and (max-width: $width-high-bound) and (min-width: $width-low-bound) {
     font-size: 5vw;
   }
+  overflow-x: hidden;
 }
 
 button {

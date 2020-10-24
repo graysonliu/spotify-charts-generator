@@ -42,29 +42,10 @@ class SpotifyApp extends Component {
         this.popup.close();
 
         // use 'code' to request token
-        let response = await fetch(
-            'https://accounts.spotify.com/api/token',
-            {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                body: new URLSearchParams({
-                    grant_type: "authorization_code",
-                    code: code,
-                    redirect_uri: window.env.redirect_uri,
-                    client_id: window.env.client_id,
-                    client_secret: window.env.client_secret,
-                })
-            });
-        let data = await response.json();
-        this.setState(() => ({
-            access_token: data['access_token'],
-            refresh_token: data['refresh_token'],
-        }));
+        await this.get_token_and_write_into_state(code);
 
         // get user info using token
-        data = await this.spotify_api_fetch('/me')
+        const data = await this.spotify_api_fetch('/me')
         this.setState(() => ({
             user_name: data['display_name'],
             user_id: data['id']
@@ -108,7 +89,37 @@ class SpotifyApp extends Component {
         });
     }
 
+    get_token_and_write_into_state = async (code) => {
+        // if code is undefined, we are refreshing access token
+        const response = await fetch(
+            'https://accounts.spotify.com/api/token',
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: new URLSearchParams({
+                    grant_type: code ? "authorization_code" : "refresh_token",
+                    ...(code ? {code: code} : {refresh_token: this.state.refresh_token}),
+                    client_id: window.env.client_id,
+                    client_secret: window.env.client_secret,
+                    ...(code ? {redirect_uri: window.env.redirect_uri} : {})
+                })
+            });
+        const auth_data = await response.json();
+        this.setState(() => ({
+                access_token: auth_data['access_token'],
+                ...(auth_data['refresh_token'] ?
+                    {refresh_token: auth_data['refresh_token']} :
+                    {})
+            })
+        )
+    }
+
     spotify_api_fetch = async (endpoint, method = 'GET', data) => {
+        // always refresh token before make a spotify web api request
+        // in case that access token is expired
+        await this.get_token_and_write_into_state();
         const spotify_api_uri = 'https://api.spotify.com/v1';
 
         const response =

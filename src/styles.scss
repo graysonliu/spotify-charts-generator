@@ -148,6 +148,19 @@ button {
   margin: 1rem 1rem;
 }
 
+.description {
+  @include flex_justify_content;
+  margin-top: 0.5rem;
+
+  span {
+    font-size: 0.75rem;
+    white-space: nowrap;
+    a {
+      text-decoration: none;
+    }
+  }
+}
+
 .console-output {
   display: flex;
   margin: 0.5rem 5rem 0;

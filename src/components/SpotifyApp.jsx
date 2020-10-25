@@ -225,6 +225,12 @@ class SpotifyApp extends Component {
         return (
             <div className='app'>
                 <MyLogo style='my-logo-header'/>
+                <div className='description'>
+                    <span>Create playlists of daily charts from&nbsp;
+                        <a href='https://spotifycharts.com' target='_blank'>Spotify Charts</a>
+                        !
+                    </span>
+                </div>
                 {
                     this.state.access_token ?
                         <MainButton

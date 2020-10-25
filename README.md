@@ -1,8 +1,8 @@
 ![](https://github.com/graysonliu/spotify-charts-generator-static/workflows/build/badge.svg)
 
-# spotify-charts-generator-static
-
 https://graysonliu.github.io/spotify-charts-generator-static/
+
+# spotify-charts-generator-static
 
 This is a Spotify web app purely hosted on Github Pages. It can help you create playlists based on daily charts from [Spotify Charts](https://spotifycharts.com).
 

@@ -44,4 +44,4 @@ The injection is achieved by following snippet in [template.ejs](https://github.
 
 **Warning**
 
-The client secret of a Spotify Web App is **not** supposed to be exposed, but it is exposed in this app because the only way to get the client secret in this purely static app is to inject it into the web page. In practice, we should have a back end that handles the authorization process.
+The client secret of a Spotify Web App is **not** supposed to be exposed, but it is exposed in this app because the only way to get the client secret in this purely static app at runtime is to inject it into the web page. In practice, we should have a back end that handles token exchanges.

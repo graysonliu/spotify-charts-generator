@@ -7,10 +7,9 @@ const SitemapWebpackPlugin = require('sitemap-webpack-plugin').default;
 const dotenv = require('dotenv')
 
 module.exports = async (env, argv) => {
-    const pre_build = require('./pre_build');
-    const charts = await pre_build.fetch_charts();
     const paths = ['/spotify-charts-generator-static'];
     const isDevelopment = argv.mode === 'development';
+    const pre_build = require('./pre_build');
 
     const config = {
         entry: {
@@ -67,7 +66,7 @@ module.exports = async (env, argv) => {
             !isDevelopment && new CleanWebpackPlugin(),
             new HtmlWebpackPlugin({
                 template: "./src/template.ejs",
-                title: "Spotify Charts Generator",
+                title: "Spotify Charts Generator Static",
                 favicon: "./src/images/thinking.svg",
                 meta: [
                     {
@@ -86,7 +85,9 @@ module.exports = async (env, argv) => {
                         client_secret: process.env.CLIENT_SECRET,
                         redirect_uri: process.env.REDIRECT_URL,
                         scopes: process.env.SCOPES,
-                        charts: charts
+                        charts: isDevelopment ?
+                            await pre_build.fetch_regions_only() :
+                            await pre_build.fetch_charts()
                     }
                 },
             }),

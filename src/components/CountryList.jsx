@@ -19,7 +19,7 @@ class CountryItem extends Component {
                     onChange={this.onChange}
                 />
                 <span>{` ${this.props.country_name} `}</span>
-                <span className={`flag-icon flag-icon-${this.props.country_code}`}/>
+                {/*<span className={`flag-icon flag-icon-${this.props.country_code}`}/>*/}
             </div>);
     }
 }
